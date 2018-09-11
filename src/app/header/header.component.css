@@ -1,0 +1,23 @@
+:host {
+    padding: .2em;
+    flex: none;
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    color: #fff;
+	margin: 0 .1em;
+	font-family: sans-serif;
+	font-size: 200%;
+	font-weight: 400;
+}
+
+.title::first-letter {
+    color:#88f;
+}
+
+.logo {
+	height: 2em;
+	margin: .2em 0;
+}
