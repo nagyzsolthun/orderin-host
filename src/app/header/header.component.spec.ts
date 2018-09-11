@@ -22,4 +22,10 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render the logo', async(() => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('.logo').src).toContain('assets/logo.svg');  // TODO this doesn't really test it
+  }));
+
 });
