@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { RouteService } from './route.service';
+import { Navigation } from 'selenium-webdriver';
 
 
 class MockRouter {
@@ -31,10 +32,11 @@ describe('RouteService', () => {
     router: MockRouter,
     route: MockRoute) => {
 
-    // TODO this does not test anything
-    const spy = spyOn(service, "venueId").and.returnValue(Observable.create("venueId"));
-    router.events.next({} as NavigationEnd);
+    router.events.next(new NavigationEnd(1, "url", "url"));
+    service.venueId().subscribe(venueId => expect(venueId).toBeNull);
+
     route.firstChild.params.next({ venueId: "venueId" });
+    service.venueId().subscribe(venueId => expect(venueId).toBe("venueId"));
 
   }));
 });
