@@ -21,6 +21,10 @@ export class DataService {
       .subscribe(venueId => this.sendRequest(venueId))
   }
 
+  dataAvailable() {
+    return this.dataAvailableObservable;
+  }
+
   private sendRequest(venueId: string) {
     console.log(`subscribing on venueId:${venueId}`);
 
