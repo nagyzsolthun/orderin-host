@@ -1,43 +1,31 @@
 import { Injectable } from '@angular/core';
-
-import { first, filter } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject } from 'rxjs';
-import { RouteService } from './route.service';
+import InitState from '../domain/InitState';
+import { HttpCacheService } from './http-cache.service';
+import { RouteParamsService } from './route-params.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  private dataObservable: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private dataAvailableObservable: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private initState$: Observable<InitState>;
 
-  constructor(private http: HttpClient, private routeService: RouteService) {
-    this.routeService.venueId()
-      .pipe(filter(venueId => venueId != null))
-      .pipe(first())
-      .subscribe(venueId => this.sendRequest(venueId))
+  constructor(private http: HttpCacheService, private routeParamsService: RouteParamsService) {
+    this.initState$ = this.routeParamsService.venueId()
+      .pipe(switchMap(venueId => this.initState(venueId)))
   }
 
-  dataAvailable() {
-    return this.dataAvailableObservable;
+  venue() {
+    return this.initState$.pipe(map(state => state.venue));
   }
 
-  private sendRequest(venueId: string) {
-    console.log(`subscribing on venueId:${venueId}`);
-
-    const url = `${environment.apiUrl}/host/${venueId}/state`;
-    const options = { withCredentials: true };
-    const httpObservable = this.http.get(url, options).pipe(first());
-
-    httpObservable.subscribe(data => this.onData(data));
-  }
-
-  private onData(data) {
-    this.dataObservable.next(data);
-    this.dataAvailableObservable.next(true)
+  private initState(venueId: string): Observable<InitState> {
+    const url = `${environment.apiUrl}/initStateOfHost/${venueId}`;
+    return this.http.get(url).pipe(map(json => InitState.fromJson(json)));
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { filter } from 'rxjs/operators';
-import { RouteService } from '../services/route.service';
+import { RouteParamsService } from '../services/route-params.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,11 +11,10 @@ export class NavbarComponent implements OnInit {
 
   venueId: String;
 
-  constructor(private routeService: RouteService) { }
+  constructor(private routeParamsService: RouteParamsService) { }
 
   ngOnInit() {
-    this.routeService.venueId()
-      .pipe(filter(id => id != null))
+    this.routeParamsService.venueId()
       .subscribe(venueId => this.venueId = venueId)
   }
 }

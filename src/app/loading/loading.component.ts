@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { RouteService } from '../services/route.service';
-import { filter, first } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 import { Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { DataService } from '../services/data.service';
+import { RouteParamsService } from '../services/route-params.service';
 
 @Component({
   selector: 'app-loading',
@@ -12,25 +12,24 @@ import { Router } from '@angular/router';
 })
 export class LoadingComponent implements OnInit {
 
+  url: string;
+
   constructor(
-    private routeService: RouteService,
+    private routeParamsService: RouteParamsService,
     private dataService: DataService,
     private router: Router) { }
 
   ngOnInit() {
-    const venueIdObservable = this.routeService.venueId()
-      .pipe(filter(venueId => venueId != null))
-      .pipe(first());
-
-    const dataAvailableObservable = this.dataService.dataAvailable()
-      .pipe(filter(avaliable => avaliable))
-      .pipe(first());
+    const venueIdObservable = this.routeParamsService.venueId().pipe(first());
+    const dataAvailableObservable = this.dataService.venue().pipe(first());
 
     combineLatest(venueIdObservable, dataAvailableObservable)
       .subscribe(values => {
         const venueId = values[0] as string;
         this.router.navigate([venueId, "orders"]);
       });
+
+    this.url = encodeURIComponent(window.location.href);
   }
 
 }

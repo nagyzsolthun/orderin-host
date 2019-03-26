@@ -1,9 +1,8 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { RouteParamsService } from './route-params.service';
 
-import { RouteService } from './route.service';
-import { Navigation } from 'selenium-webdriver';
 
 
 class MockRouter {
@@ -20,23 +19,22 @@ describe('RouteService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        RouteService,
+        RouteParamsService,
         { provide: Router, useClass: MockRouter },
         { provide: ActivatedRoute, useClass: MockRoute },
       ]
     });
   });
 
-  it('should return venueId when available', inject([RouteService, Router, ActivatedRoute], (
-    service: RouteService,
-    router: MockRouter,
-    route: MockRoute) => {
+  it('should return venueId when available', () => {
+    const service = TestBed.get(RouteParamsService);
+    const router = TestBed.get(Router);
+    const route = TestBed.get(ActivatedRoute);
 
     router.events.next(new NavigationEnd(1, "url", "url"));
     service.venueId().subscribe(venueId => expect(venueId).toBeNull);
 
     route.firstChild.params.next({ venueId: "venueId" });
     service.venueId().subscribe(venueId => expect(venueId).toBe("venueId"));
-
-  }));
+  });
 });
