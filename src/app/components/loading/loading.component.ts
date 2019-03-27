@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { DataService } from '../services/data.service';
-import { RouteParamsService } from '../services/route-params.service';
+import { DataService } from 'src/app/services/data.service';
+import { RouteParamsService } from 'src/app/services/route-params.service';
 
 @Component({
   selector: 'app-loading',

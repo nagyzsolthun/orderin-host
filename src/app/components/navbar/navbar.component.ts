@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { filter } from 'rxjs/operators';
-import { RouteParamsService } from '../services/route-params.service';
+import { RouteParamsService } from 'src/app/services/route-params.service';
 
 @Component({
   selector: 'app-navbar',
