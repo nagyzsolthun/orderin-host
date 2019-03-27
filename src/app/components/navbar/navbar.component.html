@@ -1,2 +1,4 @@
-<a [routerLink]="[ venueId, 'orders' ]"   routerLinkActive="selected">Orders</a>
-<a [routerLink]="[ venueId, 'products' ]" routerLinkActive="selected">Products</a>
+<ng-container *ngIf="venueId$ | async as venueId">
+    <a [routerLink]="[ venueId, 'orders' ]"   routerLinkActive="selected">Orders</a>
+    <a [routerLink]="[ venueId, 'products' ]" routerLinkActive="selected">Products</a>
+</ng-container>

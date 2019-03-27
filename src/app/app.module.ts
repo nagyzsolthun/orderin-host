@@ -4,16 +4,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './components/app/app.component';
 import { HeaderComponent } from './components/header/header.component';
-import { LoadingComponent } from './components/loading/loading.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
-import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductListComponent } from './components/product-list/product-list.component'
+import { LoginComponent } from './components/login/login.component';
 
 
 const routes: Routes = [
   { path: ':venueId/orders', component: OrderListComponent },
   { path: ':venueId/products', component: OrderListComponent },
-  { path: ':venueId', component: LoadingComponent },
+  { path: ':venueId', redirectTo: ":venueId/orders" },
 ];
 
 @NgModule({
@@ -22,7 +22,7 @@ const routes: Routes = [
     HeaderComponent,
     NavbarComponent,
     OrderListComponent,
-    LoadingComponent,
+    LoginComponent,
     ProductListComponent
   ],
   imports: [

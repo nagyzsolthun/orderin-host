@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RouteParamsService } from 'src/app/services/route-params.service';
+import { Observable } from 'rxjs';
+import Venue from 'src/app/domain/Venue';
+import { DataService } from 'src/app/services/data.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -8,12 +11,11 @@ import { RouteParamsService } from 'src/app/services/route-params.service';
 })
 export class NavbarComponent implements OnInit {
 
-  venueId: String;
+  venueId$: Observable<string>;
 
-  constructor(private routeParamsService: RouteParamsService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.routeParamsService.venueId()
-      .subscribe(venueId => this.venueId = venueId)
+    this.venueId$ = this.dataService.venue().pipe(map(venue => venue.id));
   }
 }
