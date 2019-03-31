@@ -1,4 +1,4 @@
 <div class="image-wrapper">
     <img class="logo" src="assets/logo.svg">
 </div>
-<a [class.clickable]="clickable$ | async" href="/api/redirect?url={{url}}">log in</a>
+<a [class.clickable]="clickable$ | async" href="{{apiUrl}}/redirect?url={{url}}">log in</a>

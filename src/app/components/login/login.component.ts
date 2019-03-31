@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { DataService } from 'src/app/services/data.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 export class LoginComponent implements OnInit {
 
   clickable$: Observable<boolean>;
+  apiUrl: string;
   url: string;
 
   constructor(private dataService: DataService) { }
@@ -20,6 +22,8 @@ export class LoginComponent implements OnInit {
       map(user => user == null), // clickable only if not authenticated
       startWith(false)  // and not while authentication is in progress
     );
+
+    this.apiUrl = environment.apiUrl;
     this.url = encodeURIComponent(window.location.href);
   }
 
