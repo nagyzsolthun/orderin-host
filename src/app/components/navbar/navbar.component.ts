@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import Venue from 'src/app/domain/Venue';
 import { DataService } from 'src/app/services/data.service';
 import { map } from 'rxjs/operators';
 
@@ -10,7 +9,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
   venueId$: Observable<string>;
 
   constructor(private dataService: DataService) { }

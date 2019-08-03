@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Observable } from 'rxjs';
-import User from 'src/app/domain/User';
 import { map, filter } from 'rxjs/operators';
 
 @Component({
