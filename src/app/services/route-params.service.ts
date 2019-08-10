@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, ParamMap } from '@angular/router';
 
-import { map, filter, switchMap, shareReplay } from 'rxjs/operators';
+import { map, filter, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 // service to access routeParams outside of the router-outlet
@@ -30,6 +30,9 @@ export class RouteParamsService {
   }
 
   venueId(): Observable<string> {
-    return this.params$.pipe(map(params => params.get("venueId")));
+    return this.params$.pipe(
+      map(params => params.get("venueId")),
+      distinctUntilChanged()
+    );
   }
 }

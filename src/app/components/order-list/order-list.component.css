@@ -1,0 +1,15 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.order {
+    font-size: 1em;
+    padding: .5em;
+    margin: .1em;
+    color: #fff;
+    background-color: rgba(20,20,50, 0.2);
+    border: .1em solid #555;
+    border-radius: 1em;
+}
