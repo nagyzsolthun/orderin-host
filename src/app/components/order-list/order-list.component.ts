@@ -16,16 +16,7 @@ export class OrderListComponent implements OnInit {
   constructor(private orderService: OrderService) { }
 
   ngOnInit() {
-    this.orders$ = this.orderService.getOrders()
-      .pipe(tap(orders => console.log(orders.length)));
-
-    /*this.orders$ = new ReplaySubject<Order[]>(1);
-
-    const order1 = Order.fromJson({id:"id1", counter:"1", orderItems:[], tableName:{en:"table"}});
-    const order2 = Order.fromJson({id:"id2", counter:"2", orderItems:[], tableName:{en:"table"}});
-
-    setTimeout(() => this.orders$.next([order1]), 1000);
-    setTimeout(() => this.orders$.next([order1, order2]), 2000);*/
+    this.orders$ = this.orderService.getOrders();
   }
 
   formatCounter(counter: number): string {

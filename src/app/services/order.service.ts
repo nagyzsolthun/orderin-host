@@ -1,10 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ReplaySubject, combineLatest } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import Order from '../domain/Order';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { DataService } from './data.service';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { RouteParamsService } from './route-params.service';
 
 @Injectable({
@@ -20,17 +20,14 @@ export class OrderService {
     dataService: DataService,
     private httpClient: HttpClient,
     private ngZone: NgZone) {
-    // TODO fetch orders
 
-    // subscribe only when authenticated
-    const venueId$ = routeParamsService.venueId();
-    const user$ = dataService.user();
-    combineLatest(venueId$, user$)
-      .pipe(filter( ([venueId,user]) => user != null))
-      .subscribe( ([venueId,user]) => {
-        this.subscribeOnOrderEvents(venueId)
-        this.fetchOrders(venueId);
-      });
+    dataService.user().pipe(
+      filter(user => user != null),
+      switchMap(_ => routeParamsService.venueId())
+    ).subscribe( venueId => {
+      this.subscribeOnOrderEvents(venueId)
+      this.fetchOrders(venueId);
+    });
   }
 
   getOrders() {
