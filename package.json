@@ -1,5 +1,5 @@
 {
-  "name": "orderin-host",
+  "name": "orderin-ui-host",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
