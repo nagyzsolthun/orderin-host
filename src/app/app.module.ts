@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { OrderListComponent } from './components/order-list/order-list.component';
 import { ProductListComponent } from './components/product-list/product-list.component'
 import { LoginComponent } from './components/login/login.component';
+import { OrderListItemComponent } from './components/order-list-item/order-list-item.component';
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
     NavbarComponent,
     OrderListComponent,
     LoginComponent,
-    ProductListComponent
+    ProductListComponent,
+    OrderListItemComponent
   ],
   imports: [
     BrowserModule,

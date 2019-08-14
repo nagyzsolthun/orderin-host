@@ -19,11 +19,4 @@ export class OrderListComponent implements OnInit {
     this.orders$ = this.orderService.getOrders();
   }
 
-  formatCounter(counter: number): string {
-    if(counter > 99) return counter.toString();
-    if(counter > 9) return "0" + counter;
-    if(counter > 0) return "00" + counter;
-    return counter.toString(); // negative, should never reach
-  }
-
 }

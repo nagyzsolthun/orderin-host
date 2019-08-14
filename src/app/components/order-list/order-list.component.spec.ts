@@ -35,10 +35,8 @@ describe('OrderListComponent', () => {
     compiled = fixture.debugElement.nativeElement;
   });
 
-  it('should render orders', () => {
-    const orderElements = compiled.querySelectorAll(".order");
+  it('should render order-list-items', () => {
+    const orderElements = compiled.querySelectorAll("app-order-list-item");
     expect(orderElements.length).toBe(2);
-    expect(orderElements[0].innerHTML).toBe("001");
-    expect(orderElements[1].innerHTML).toBe("002");
   });
 });
