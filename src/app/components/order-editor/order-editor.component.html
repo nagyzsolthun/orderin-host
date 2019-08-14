@@ -1,0 +1,3 @@
+<ng-container *ngIf="order$ | async as order">
+    <app-order-editor-item *ngFor="let item of order.orderItems" [item]="item"></app-order-editor-item>
+</ng-container>

@@ -9,11 +9,14 @@ import { OrderListComponent } from './components/order-list/order-list.component
 import { ProductListComponent } from './components/product-list/product-list.component'
 import { LoginComponent } from './components/login/login.component';
 import { OrderListItemComponent } from './components/order-list-item/order-list-item.component';
+import { OrderEditorComponent } from './components/order-editor/order-editor.component';
+import { OrderEditorItemComponent } from './components/order-editor-item/order-editor-item.component';
 
 
 const routes: Routes = [
   { path: ':venueId/orders', component: OrderListComponent },
   { path: ':venueId/products', component: OrderListComponent },
+  { path: ':venueId/order/:counter', component: OrderEditorComponent },
   { path: ':venueId', redirectTo: ":venueId/orders" },
 ];
 
@@ -25,7 +28,9 @@ const routes: Routes = [
     OrderListComponent,
     LoginComponent,
     ProductListComponent,
-    OrderListItemComponent
+    OrderListItemComponent,
+    OrderEditorComponent,
+    OrderEditorItemComponent
   ],
   imports: [
     BrowserModule,

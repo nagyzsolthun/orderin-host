@@ -1,4 +1,7 @@
 <ng-container *ngIf="venueId$ | async as venueId">
     <a [routerLink]="[ venueId, 'orders' ]"   routerLinkActive="selected">Orders</a>
     <a [routerLink]="[ venueId, 'products' ]" routerLinkActive="selected">Products</a>
+    <ng-container *ngIf="orders$ | async as orders">
+        <a *ngFor="let order of orders" [routerLink]="[ venueId, 'order', order.counter ]" routerLinkActive="selected">{{order.counter}}</a>
+    </ng-container>
 </ng-container>
