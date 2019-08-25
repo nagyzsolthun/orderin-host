@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import Order from 'src/app/domain/Order';
 
 @Component({
@@ -6,22 +6,10 @@ import Order from 'src/app/domain/Order';
   templateUrl: './order-list-item.component.html',
   styleUrls: ['./order-list-item.component.css']
 })
-export class OrderListItemComponent implements OnInit {
+export class OrderListItemComponent {
 
   @Input() order: Order;
-  formattedCounter: string;
 
   constructor() { }
-
-  ngOnInit() {
-    this.formattedCounter = this.formatCounter(this.order.counter);
-  }
-
-  formatCounter(counter: number): string {
-    if(counter > 99) return counter.toString();
-    if(counter > 9) return "0" + counter;
-    if(counter > 0) return "00" + counter;
-    return counter.toString(); // negative, should never reach
-  }
 
 }

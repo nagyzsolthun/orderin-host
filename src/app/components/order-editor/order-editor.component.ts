@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { I18nService } from 'src/app/services/i18n.service';
+import { Component, OnInit } from '@angular/core';
 import Order from 'src/app/domain/Order';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
@@ -23,7 +22,6 @@ export class OrderEditorComponent implements OnInit {
   ngOnInit() {
     const counter$ = this.route.paramMap.pipe(
       map(params => params.get("counter")),
-      map(parseInt),
       distinctUntilChanged()
     );
     const orders$ = this.orderService.getOrders();

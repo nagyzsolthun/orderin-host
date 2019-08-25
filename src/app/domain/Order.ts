@@ -2,7 +2,7 @@ import OrderItem from "./OrderItem";
 
 export default class Order {
     id: string;
-    counter: number;
+    counter: string;
     orderItems: OrderItem[];
     tableName: Map<string,string>;
 

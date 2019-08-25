@@ -23,22 +23,10 @@ describe('OrderListItemComponent', () => {
     compiled = fixture.debugElement.nativeElement;
   });
 
-  it('should add 2 trailing 0s to 1-digit counters', () => {
-    component.order = Order.fromJson({id:"id", counter:1, orderItems:[], tableName:{en:"table"}});
+  it('should show counter', () => {
+    component.order = Order.fromJson({id:"id", counter:"001", orderItems:[], tableName:{en:"table"}});
     fixture.detectChanges();
     expect(compiled.querySelector("div").innerText).toBe("001");
-  });
-
-  it('should add 1 trailing 0 to 2-digit counters', () => {
-    component.order = Order.fromJson({id:"id", counter:11, orderItems:[], tableName:{en:"table"}});
-    fixture.detectChanges();
-    expect(compiled.querySelector("div").innerText).toBe("011");
-  });
-
-  it('should add no trailing 0 to 3-digit counters', () => {
-    component.order = Order.fromJson({id:"id", counter:111, orderItems:[], tableName:{en:"table"}});
-    fixture.detectChanges();
-    expect(compiled.querySelector("div").innerText).toBe("111");
   });
 
 });
