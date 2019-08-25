@@ -1,1 +1,3 @@
-<div>{{order.counter}}</div>
+<a *ngIf="venueId$ | async as venueId" [routerLink]="[ '/', venueId, 'order', order.counter ]">
+    <div class="counter">{{order.counter}}</div>
+</a>
