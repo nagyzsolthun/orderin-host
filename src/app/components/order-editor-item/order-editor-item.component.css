@@ -3,13 +3,17 @@
     justify-content: space-between; /* so prices will align to the right */
 }
 
+.check {
+    margin-right: 8px;
+    color: #888;
+}
+
 .productName {
     font-size: 16px;
     width: 70%;
-    color: white;
+    color: #888;
     padding: 4px;
     text-align: left;
-    transition: color 1s;
 }
 .portionName {
     font-size: 16px;
@@ -17,14 +21,17 @@
     color: #888;
     padding: 4px;
     text-align: left;
-    transition: color 1s;
 }
 
 .price {
     font-size: 16px;
     width: 30%;
-    color: #4f4;
+    color: #888;
     padding: 4px;
     text-align: right;
-    transition: color 1s;
 }
+
+:host(.done) .check { color: #4f4; }
+:host(.done) .price { color: #4f4; }
+:host(.done) .productName { color: #fff }
+:host(.done) .portionName { color: #bbb }

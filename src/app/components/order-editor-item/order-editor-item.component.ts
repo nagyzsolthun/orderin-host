@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener, HostBinding } from '@angular/core';
 import Order from 'src/app/domain/Order';
 import OrderItem from 'src/app/domain/OrderItem';
 import { Observable } from 'rxjs';
@@ -20,6 +20,8 @@ export class OrderEditorItemComponent implements OnInit {
   priceCurrency$: Observable<string>;
   count: number;
 
+  @HostBinding('class.done') done: boolean;
+
   constructor(private i18nService: I18nService) { }
 
   ngOnInit() {
@@ -28,6 +30,11 @@ export class OrderEditorItemComponent implements OnInit {
     this.priceAmount$ = this.i18nService.localAmount(this.item.price).pipe(map(amount => amount*this.item.count));
     this.priceCurrency$ = this.i18nService.localCurrency(this.item.price);
     this.count = this.item.count;
+  }
+
+  @HostListener("click")
+  flipDone() {
+    this.done = !this.done;
   }
 
 }
