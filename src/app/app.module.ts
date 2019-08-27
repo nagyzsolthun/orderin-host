@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { OrderListItemComponent } from './components/order-list-item/order-list-item.component';
 import { OrderEditorComponent } from './components/order-editor/order-editor.component';
 import { OrderEditorItemComponent } from './components/order-editor-item/order-editor-item.component';
+import { OrderEditorButtonComponent } from './components/order-editor-button/order-editor-button.component';
 
 
 const routes: Routes = [
@@ -30,7 +31,8 @@ const routes: Routes = [
     ProductListComponent,
     OrderListItemComponent,
     OrderEditorComponent,
-    OrderEditorItemComponent
+    OrderEditorItemComponent,
+    OrderEditorButtonComponent
   ],
   imports: [
     BrowserModule,

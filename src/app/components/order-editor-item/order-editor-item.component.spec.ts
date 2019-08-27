@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { I18nService } from 'src/app/services/i18n.service';
 import OrderItem from 'src/app/domain/OrderItem';
 import { By } from '@angular/platform-browser';
+import Order from 'src/app/domain/Order';
 
 class MockI18nService {
   localText(i18n: Map<string, string>) { return of(i18n.get("en")) }
@@ -29,9 +30,11 @@ describe('OrderEditorItemComponent', () => {
 
   beforeEach(() => {
     const orderItem = OrderItem.fromJson({productId:"productId", portionId:"portionId", productName:{en:"Product"}, portionName:{en:"Portion"}, price: {HUF:1000}, count: 1});
+    const order = Order.fromJson({id:"id1", counter:1, orderItems:[orderItem], tableName:{en:"table1"}});
 
     fixture = TestBed.createComponent(OrderEditorItemComponent);
     component = fixture.componentInstance;
+    component.order = order;
     component.item = orderItem;
     fixture.detectChanges();
   });

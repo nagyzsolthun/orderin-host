@@ -1,5 +1,5 @@
 a {
-    display: block;
+    display: flex;
     font-size: 1em;
     padding: .5em;
     margin: .1em;
@@ -8,4 +8,21 @@ a {
     border: .1em solid #555;
     border-radius: 1em;
     text-decoration: none;
+}
+
+.state {
+    margin-left: 1em;
+    font-size: .9em;
+    text-transform: lowercase;
+}
+
+.created .state { color: #fff; }
+.preparing .state { color: #ff4; }
+.ready .state { color: #4f4; }
+.taken .state { color: #844; }
+.deleted .state { color: #444; }
+
+.host {
+    color: #888;
+    margin-left: auto;
 }

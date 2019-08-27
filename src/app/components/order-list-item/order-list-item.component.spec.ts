@@ -31,13 +31,17 @@ describe('OrderListItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderListItemComponent);
     component = fixture.componentInstance;
-    component.order = Order.fromJson({id:"id", counter:"001", orderItems:[], tableName:{en:"table"}});
+    component.order = Order.fromJson({id:"id", counter:"001", orderItems:[], tableName:{en:"table"}, state:"ORDERSTATE", host:"host"});
     fixture.detectChanges();
     compiled = fixture.debugElement.nativeElement;
   });
 
-  it('should show counter', () => {
-    expect(compiled.querySelector("div").innerText).toBe("001");
+  it('should show counter, state, host', () => {
+    console.log(compiled)
+    expect(compiled.querySelector(".counter").textContent).toBe("001");
+    expect(compiled.querySelector(".state").textContent).toBe("ORDERSTATE");
+    expect(compiled.querySelector(".host").textContent).toBe("host");
+
   });
 
   it('should redirect when clicked', () => {

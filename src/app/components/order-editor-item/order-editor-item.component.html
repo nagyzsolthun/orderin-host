@@ -1,4 +1,4 @@
-<div class="check">{{done ? "&#x2713;" : "&#10007;"}}</div>
+<div class="check" *ngIf="order.state == 'PREPARING'">{{done ? "&#x2713;" : "&#10007;"}}</div>
 <div class="productName">{{productName$ | async}}</div>
 <div class="portionName">{{portionName$ | async}} x {{count}}</div>
 <div class="price">{{priceAmount$ | async}} {{priceCurrency$ | async}}</div>

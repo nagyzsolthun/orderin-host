@@ -1,3 +1,5 @@
-<a *ngIf="venueId$ | async as venueId" [routerLink]="[ '/', venueId, 'order', order.counter ]">
+<a *ngIf="venueId$ | async as venueId" [routerLink]="[ '/', venueId, 'order', order.counter ]" [class]="order.state | lowercase">
     <div class="counter">{{order.counter}}</div>
+    <div class="state">{{order.state}}</div>
+    <div class="host">{{order.host}}</div>
 </a>

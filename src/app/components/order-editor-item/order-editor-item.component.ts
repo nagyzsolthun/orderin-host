@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class OrderEditorItemComponent implements OnInit {
 
+  @Input() order: Order;
   @Input() item: OrderItem;
 
   productName$: Observable<string>;
@@ -34,7 +35,9 @@ export class OrderEditorItemComponent implements OnInit {
 
   @HostListener("click")
   flipDone() {
-    this.done = !this.done;
+    if(this.order.state == "PREPARING") {
+      this.done = !this.done;
+    }
   }
 
 }

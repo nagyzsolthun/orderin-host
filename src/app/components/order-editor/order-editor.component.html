@@ -1,3 +1,4 @@
 <ng-container *ngIf="order$ | async as order">
-    <app-order-editor-item *ngFor="let item of order.orderItems" [item]="item"></app-order-editor-item>
+    <app-order-editor-item *ngFor="let item of order.orderItems" [order]="order" [item]="item"></app-order-editor-item>
+    <app-order-editor-button [order]="order"></app-order-editor-button>
 </ng-container>

@@ -1,11 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 import Order from '../domain/Order';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { DataService } from './data.service';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { RouteParamsService } from './route-params.service';
+import OrderUpdate from '../domain/OrderUpdate';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,14 @@ export class OrderService {
   constructor(
     routeParamsService: RouteParamsService,
     dataService: DataService,
-    private httpClient: HttpClient,
+    private http: HttpClient,
     private ngZone: NgZone) {
 
     dataService.user().pipe(
       filter(user => user != null),
       switchMap(_ => routeParamsService.venueId())
     ).subscribe( venueId => {
-      this.subscribeOnOrderEvents(venueId)
+      this.subscribeOnOrderEvents(venueId);
       this.fetchOrders(venueId);
     });
   }
@@ -34,39 +35,78 @@ export class OrderService {
     return this.orders$;
   }
 
+  requestOrderUpdate(orderId: string, state: string): Observable<any> {
+    const url = `${environment.apiUrl}/order/${orderId}`;
+    const params = new HttpParams().set("state", state);
+    return this.http.post(url, {}, {params}).pipe(
+      map(OrderUpdate.fromJson),
+      map(orderUpdate => this.updateOrder(orderUpdate))
+    );
+  }
+
+  requestOrderDelete(orderId: string): Observable<any> {
+    const url = `${environment.apiUrl}/order/${orderId}`;
+    return this.http.delete(url, {}).pipe(
+      map(_ => this.deleteOrder(orderId))
+    );
+  }
+
   private subscribeOnOrderEvents(venueId) {
-    const params = new URLSearchParams({venueId});
-    const url = `${environment.apiUrl}/orderEvents?${params.toString()}`;
+    const url = `${environment.apiUrl}/${venueId}/orderEvents`;
     const eventSource = new EventSource(url);
     eventSource.onmessage = message => this.onOrderEvent(message);
   }
 
   private fetchOrders(venueId) {
-    const params = new URLSearchParams({venueId});
-    const url = `${environment.apiUrl}/fetchOrders?${params.toString()}`;
-    this.httpClient.get(url).pipe(
+    const url = `${environment.apiUrl}/${venueId}/orders`;
+    this.http.get(url).pipe(
       map(orders => orders as any[]),
       map(orders => orders.map(Order.fromJson))
-    ).subscribe(orders => orders.forEach(order => this.updateOrder(order)));
+    ).subscribe(orders => orders.forEach(order => this.createOrder(order)));
 
   }
 
   private onOrderEvent(message: MessageEvent) {
-    const order = Order.fromJson(JSON.parse(message.data));
-    this.ngZone.run(() => this.updateOrder(order)); // otherwise async in template does not react
+    const data = JSON.parse(message.data);
+
+    // use ngZone, otherwise async in template does not react
+    if(data.id) {
+      const order = Order.fromJson(data);
+      this.ngZone.run(() => this.createOrder(order));
+      return;
+    }
+
+    if(data.orderId) {
+      const orderUpdate = OrderUpdate.fromJson(data);
+      this.ngZone.run(() => this.updateOrder(orderUpdate));
+      return;
+    }
+
+    // otherwise heartbeat
   }
 
-  private updateOrder(order: Order) {
-    const existing = this.orders.find(o => o.id == order.id);
+  private createOrder(order: Order) {
+    const existing = this.orders.some(o => o.id == order.id);
     if(existing) {
-      existing.counter = order.counter;
-      existing.tableName = order.tableName;
-      existing.orderItems = order.orderItems;
-      this.orders$.next(this.orders);
+      // race condition, subscribe to events before fetching orders
       return;
     }
 
     this.orders.push(order);
+    this.orders$.next(this.orders);
+  }
+
+  private updateOrder(orderEvent: OrderUpdate) {
+    const order = this.orders.find(order => order.id == orderEvent.orderId);
+    if(order) {
+      order.state = orderEvent.state;
+      order.host = orderEvent.host;
+      this.orders$.next(this.orders);
+    }
+  }
+
+  private deleteOrder(orderId: string) {
+    this.orders = this.orders.filter(o => o.id != orderId);
     this.orders$.next(this.orders);
   }
 

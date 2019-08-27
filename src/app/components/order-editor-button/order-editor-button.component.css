@@ -1,0 +1,47 @@
+:host {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    font-size: 1.2em;
+    padding: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    background-color: rgba(70,70,70,0.4);
+    border-top: .05em solid #444;
+    cursor: pointer;
+}
+
+.label {
+    margin-right: .5em;
+}
+
+.label.prepare { color: #ff4; }
+.label.ready { color: #4f4; }
+.label.taken { color: #888; }
+.label.delete { color: #f44; }
+
+.error:after {
+    margin-top: -.1em;
+    font-size: 1.4em;
+    position: absolute;
+    content: "\2715";
+    color: #f44;
+}
+
+.loading:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 1.2em;
+    height: 1.2em;
+    margin: -.1em;
+    border-radius: 50%;
+    border: .1em solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: animation 1s linear infinite;
+}
+
+@keyframes animation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
