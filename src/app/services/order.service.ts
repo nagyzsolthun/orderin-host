@@ -36,29 +36,29 @@ export class OrderService {
   }
 
   requestOrderUpdate(orderId: string, state: string): Observable<any> {
-    const url = `${environment.apiUrl}/order/${orderId}`;
+    const url = `${environment.apiUrl}/orders/${orderId}`;
     const params = new HttpParams().set("state", state);
-    return this.http.post(url, {}, {params}).pipe(
+    return this.http.put(url, {}, {params}).pipe(
       map(OrderUpdate.fromJson),
       map(orderUpdate => this.updateOrder(orderUpdate))
     );
   }
 
   requestOrderDelete(orderId: string): Observable<any> {
-    const url = `${environment.apiUrl}/order/${orderId}`;
+    const url = `${environment.apiUrl}/orders/${orderId}`;
     return this.http.delete(url, {}).pipe(
       map(_ => this.deleteOrder(orderId))
     );
   }
 
   private subscribeOnOrderEvents(venueId) {
-    const url = `${environment.apiUrl}/${venueId}/orderEvents`;
+    const url = `${environment.apiUrl}/venues/${venueId}/events`;
     const eventSource = new EventSource(url);
-    eventSource.onmessage = message => this.onOrderEvent(message);
+    eventSource.onmessage = message => this.onServerEvent(message);
   }
 
   private fetchOrders(venueId) {
-    const url = `${environment.apiUrl}/${venueId}/orders`;
+    const url = `${environment.apiUrl}/venues/${venueId}/orders`;
     this.http.get(url).pipe(
       map(orders => orders as any[]),
       map(orders => orders.map(Order.fromJson))
@@ -66,7 +66,7 @@ export class OrderService {
 
   }
 
-  private onOrderEvent(message: MessageEvent) {
+  private onServerEvent(message: MessageEvent) {
     const data = JSON.parse(message.data);
 
     // use ngZone, otherwise async in template does not react

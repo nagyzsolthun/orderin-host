@@ -34,7 +34,7 @@ export class DataService {
   }
 
   private initState(venueId: string): Observable<InitState> {
-    const url = `${environment.apiUrl}/initStateOfHost/${venueId}`;
+    const url = `${environment.apiUrl}/venues/${venueId}/state`;
     return this.http.get(url).pipe(map(json => InitState.fromJson(json)));
   }
 

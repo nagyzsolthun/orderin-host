@@ -24,7 +24,7 @@ class MockHttpClient {
     const order2 = Order.fromJson({id:"id2", counter:2, orderItems:[], tableName:{en:"table2"}, state:"CREATED"});
     return of([order1, order2]);
   }
-  post() {
+  put() {
     return of(OrderUpdate.fromJson({orderId:"id1", state:"PREPARING", host:"host"}));
   }
   delete() {
@@ -55,7 +55,7 @@ describe('OrderService', () => {
   });
 
   beforeEach(() => {
-    window["EventSource"] = MockEventSource;
+    window["EventSource"] = MockEventSource as any;
     MockEventSource.lastInstance = null;
   })
 
@@ -76,7 +76,7 @@ describe('OrderService', () => {
 
   it('updates order on orderUpdate', async(() => {
     const httpClient = TestBed.get(HttpClient) as MockHttpClient;
-    spyOn(httpClient, "post").and.callThrough();
+    spyOn(httpClient, "put").and.callThrough();
 
     const service = TestBed.get(OrderService) as OrderService;
     service.getOrders()
@@ -84,7 +84,7 @@ describe('OrderService', () => {
       .subscribe(order => expect(order.state).toBe("CREATED"));
 
     service.requestOrderUpdate("id", "state");  // parameters irrelevant here
-    expect(httpClient.post).toHaveBeenCalled();
+    expect(httpClient.put).toHaveBeenCalled();
     service.getOrders()
       .pipe(first(), map(orders => orders[0]))
       .subscribe(order => expect(order.state).toBe("PREPARING"));
